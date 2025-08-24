@@ -27,7 +27,8 @@
     
     <script src="municipios-widget.iife.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Função para inicializar o widget com delay
+        function initWidget() {
             try {
                 if (window.MunicipiosWidget) {
                     new window.MunicipiosWidget({
@@ -44,7 +45,22 @@
                 document.getElementById('widget-container').innerHTML = 
                     '<p style="color: red;">Erro ao inicializar widget: ' + error.message + '</p>';
             }
+        }
+
+        // Aguardar o DOM estar pronto e dar um delay adicional
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aguardar 500ms para garantir que tudo carregou
+            setTimeout(initWidget, 500);
         });
+
+        // Fallback: se DOMContentLoaded já aconteceu
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(initWidget, 500);
+            });
+        } else {
+            setTimeout(initWidget, 500);
+        }
     </script>
 </body>
 </html>
