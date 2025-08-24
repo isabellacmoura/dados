@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Widget Municípios de Portugal</title>
-    <link rel="stylesheet" href="municipios-widget.css">
+    <link rel="stylesheet" href="dados-widget.css">
     <style>
         body {
             margin: 0;
@@ -25,15 +25,15 @@
 <body>
     <div id="widget-container"></div>
     
-    <script src="municipios-widget.iife.js"></script>
+    <script src="dados-widget.iife.js"></script>
     <script>
         // Função para inicializar o widget com delay
         function initWidget() {
             try {
-                if (window.MunicipiosWidget) {
-                    new window.MunicipiosWidget({
-                        target: document.getElementById('widget-container')
-                    });
+                            if (window.DadosWidget) {
+                new window.DadosWidget({
+                    target: document.getElementById('widget-container')
+                });
                     console.log('Widget Svelte inicializado com sucesso!');
                 } else {
                     console.error('Widget não encontrado');
