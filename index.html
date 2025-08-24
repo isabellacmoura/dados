@@ -179,28 +179,7 @@
             display: none;
         }
 
-        /* Status do widget */
-        .widget-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #f0f0f0;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            z-index: 10000;
-            border: 1px solid #ccc;
-        }
 
-        .widget-status h4 {
-            margin: 0 0 5px 0;
-            color: #333;
-        }
-
-        .widget-status p {
-            margin: 5px 0;
-            color: #666;
-        }
     </style>
 </head>
 <body>
@@ -222,11 +201,7 @@
         cobertura de políticas públicas em Portugal
     </div>
 
-    <!-- Status do widget -->
-    <div class="widget-status">
-        <h4>Widget Status</h4>
-        <p id="widget-status-text">Carregando...</p>
-    </div>
+
 
     <div class="main-content">
         <div class="content-section">
@@ -278,19 +253,6 @@
         </div>
     </div>
 
-    <script>
-        // Função para atualizar status do iframe
-        function updateWidgetStatus(message) {
-            const statusText = document.getElementById('widget-status-text');
-            if (statusText) {
-                statusText.textContent = message;
-            }
-        }
 
-        // Quando a página carregar
-        document.addEventListener('DOMContentLoaded', function() {
-            updateWidgetStatus('Iframe carregado com sucesso!');
-        });
-    </script>
 </body>
 </html>
