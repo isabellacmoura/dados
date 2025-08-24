@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasta Protegida - Dados Abertos em Portugal</title>
+    
+    <!-- CSS do widget -->
+    <link rel="stylesheet" href="municipios-widget.css">
+    <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            color: black;
+            min-height: 100vh;
+            position: relative;
+            display: block !important;
+            place-items: initial !important;
+            transform: none !important;
+            overflow-x: hidden;
+        }
+
+        /* Logo no canto superior esquerdo */
+        .logo-top-left {
+            position: fixed !important;
+            top: 20px !important;
+            left: 40px !important;
+            font-family: 'BaiJamjuree', sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            color: #000;
+            text-align: left;
+            line-height: 1.2;
+            z-index: 9999 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+
+        .logo-top-left .line1 {
+            display: block;
+            font-weight: 400;
+        }
+
+        .logo-top-left .line2 {
+            display: block;
+            font-weight: 700;
+        }
+
+        /* Menu no rodapé */
+        .footer-menu {
+            position: fixed;
+            bottom: 20px;
+            left: 40px;
+            font-family: 'BaiJamjuree', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #000;
+            text-align: left;
+            line-height: 1.4;
+            z-index: 1000;
+        }
+
+        .footer-menu a {
+            display: inline;
+            color: #000;
+            text-decoration: underline;
+            margin: 0 5px;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-menu a:hover {
+            opacity: 0.7;
+        }
+
+        /* Rodapé */
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'BaiJamjuree', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #000;
+            text-align: center;
+            line-height: 1.4;
+            z-index: 1000;
+        }
+
+        /* Conteúdo principal */
+        .main-content {
+            padding: 80px 40px 100px 40px;
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .content-section {
+            position: relative;
+            margin-bottom: 40px;
+            margin-top: 0;
+            flex-shrink: 0;
+        }
+
+        .folder-svg {
+            width: 400px;
+            height: 300px;
+            position: absolute;
+            left: 50px;
+            top: -198px;
+            z-index: 10;
+        }
+
+        .folder-svg a {
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .folder-svg a:hover {
+            transform: scale(1.05);
+        }
+
+        .text-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 20px;
+            margin-left: -18px;
+        }
+
+        .text-box {
+            padding: 15px;
+            max-width: 400px;
+            font-size: 14px;
+            line-height: 1.4;
+            font-family: Arial, sans-serif;
+            margin-top: 0;
+        }
+
+        .app-section {
+            flex: 2;
+            margin-top: 0;
+            margin-left: -40px;
+            position: relative;
+            z-index: 50;
+        }
+
+        .app-container {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            margin: -68px 0 0 -160px;
+            max-width: none;
+            box-shadow: none;
+            overflow: hidden;
+            position: relative;
+            z-index: 100;
+            clip-path: inset(0 0 0 150px);
+        }
+
+        /* Container do widget */
+        #widget-container {
+            width: 100%;
+            min-height: 600px;
+            border: none;
+            border-radius: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        /* Elementos necessários para o widget */
+        #debug-info, #debug-container, #debug-widget, #debug-errors,
+        #municipios-widget-container, #municipios-app, #app, #root,
+        #svelte-root, #widget-root, #main, #content, #container {
+            display: none;
+        }
+
+        /* Status do widget */
+        .widget-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 10000;
+            border: 1px solid #ccc;
+        }
+
+        .widget-status h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .widget-status p {
+            margin: 5px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo no canto superior esquerdo -->
+    <div class="logo-top-left">
+        <span class="line1">Dados</span>
+        <span class="line2">Abertos em</span>
+        <span class="line3">Portugal</span>
+    </div>
+
+    <!-- Menu no rodapé -->
+    <div class="footer-menu">
+        <a href="index.html">Voltar</a> / <a href="about-project.html">Sobre o projeto</a> / <a href="#referencias">Referências</a> / <a href="#contacto">Contacto</a>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="footer">
+        Projeto que incentiva o uso de dados abertos na<br>
+        cobertura de políticas públicas em Portugal
+    </div>
+
+    <!-- Status do widget -->
+    <div class="widget-status">
+        <h4>Widget Status</h4>
+        <p id="widget-status-text">Carregando...</p>
+    </div>
+
+    <div class="main-content">
+        <div class="content-section">
+            <div class="folder-svg">
+                <a href="#" style="text-decoration: none; cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 600 400" width="400" height="300">
+                        <defs>
+                            <style>
+                                .st0 { fill: #8B5CF6; }
+                                .st11 { fill: #A78BFA; }
+                            </style>
+                        </defs>
+                        <g>
+                            <path class="st0" d="M106.42,212.97v-6.92c0-4.62,1.22-6.92,3.65-6.92h21.89c1.22,0,2.43,1.15,3.65,3.46l5.47,10.39h41.96c2.43,0,3.65,2.31,3.65,6.92v34.62c0,4.62-1.22,6.92-3.65,6.92h-72.98c-2.43,0-3.65-2.31-3.65-6.92v-41.55Z"/>
+                            <path class="st11" d="M106.42,212.97h34.67l-5.47-10.39c-1.22-2.31-2.43-3.46-3.65-3.46h-21.89c-2.43,0-3.65,2.31-3.65,6.92v6.92Z"/>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+            <div class="text-container">
+                <div class="text-box">
+                    ========================<br>
+                    <span style="background-color: #8B5CF6; color: white; padding: 2px 4px;">Pasta protegida</span> é um projeto<br>
+                    que facilita o acesso à informação<br>
+                    sobre dados abertos nos municípios<br>
+                    portugueses e seus responsáveis<br>
+                    de acesso à informação<br>
+                    ========================
+                </div>
+            </div>
+        </div>
+
+        <div class="app-section">
+            <div class="app-container">
+                <div class="svelte-app-container">
+                    <iframe
+                        src="svelte/index.html"
+                        width="100%"
+                        height="800"
+                        style="border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                        title="App Svelte"
+                        sandbox="allow-scripts allow-same-origin allow-forms">
+                    </iframe>
+                </div>
+                <p style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
+                    🔗 Aplicação rodando em: <a href="https://isabellacmoura.github.io/dados/" target="_blank">GitHub Pages</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para atualizar status do iframe
+        function updateWidgetStatus(message) {
+            const statusText = document.getElementById('widget-status-text');
+            if (statusText) {
+                statusText.textContent = message;
+            }
+        }
+
+        // Quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateWidgetStatus('Iframe carregado com sucesso!');
+        });
+    </script>
+</body>
+</html>
