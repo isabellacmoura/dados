@@ -6,7 +6,7 @@
     <title>Pasta Protegida - Dados Abertos em Portugal</title>
     
     <!-- CSS do widget -->
-    <link rel="stylesheet" href="municipios-widget.css">
+    <link rel="stylesheet" href="svelte/dados-widget.css">
     <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
     
     <style>
@@ -48,6 +48,35 @@
         .logo-top-left .line2 {
             display: block;
             font-weight: 700;
+        }
+
+        /* Garantir que o logo fique sempre fixo */
+        body .logo-top-left {
+            position: fixed !important;
+            top: 20px !important;
+            left: 40px !important;
+            z-index: 9999 !important;
+            transform: none !important;
+            transition: none !important;
+            will-change: auto !important;
+        }
+
+        /* Forçar o logo a ficar fixo mesmo com iframe */
+        html body .logo-top-left {
+            position: fixed !important;
+            top: 20px !important;
+            left: 40px !important;
+            z-index: 99999 !important;
+            transform: none !important;
+            transition: none !important;
+            will-change: auto !important;
+            pointer-events: auto !important;
+        }
+
+        /* Garantir que o iframe não interfira com elementos fixos */
+        iframe {
+            position: relative !important;
+            z-index: 1 !important;
         }
 
         /* Menu no rodapé */
@@ -162,6 +191,20 @@
             clip-path: inset(0 0 0 150px);
         }
 
+        /* Override Svelte app styles */
+        #app {
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            text-align: left !important;
+        }
+
+        #app .app-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
         /* Container do widget */
         #widget-container {
             width: 100%;
@@ -174,11 +217,10 @@
 
         /* Elementos necessários para o widget */
         #debug-info, #debug-container, #debug-widget, #debug-errors,
-        #municipios-widget-container, #municipios-app, #app, #root,
+        #municipios-widget-container, #municipios-app, #root,
         #svelte-root, #widget-root, #main, #content, #container {
             display: none;
         }
-
 
     </style>
 </head>
@@ -201,12 +243,10 @@
         cobertura de políticas públicas em Portugal
     </div>
 
-
-
     <div class="main-content">
         <div class="content-section">
             <div class="folder-svg">
-                <a href="#" style="text-decoration: none; cursor: pointer;">
+                <a href="pasta-protegida.html" style="text-decoration: none; cursor: pointer;">
                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 600 400" width="400" height="300">
                         <defs>
                             <style>
@@ -236,23 +276,26 @@
 
         <div class="app-section">
             <div class="app-container">
-                <div class="svelte-app-container">
-                    <iframe
-                        src="svelte/index.html"
-                        width="100%"
-                        height="800"
-                        style="border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                        title="App Svelte"
-                        sandbox="allow-scripts allow-forms">
-                    </iframe>
-                </div>
-                <p style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
-                    🔗 Aplicação rodando em: <a href="https://isabellacmoura.github.io/dados/" target="_blank">GitHub Pages</a>
-                </p>
+                <div id="widget-container"></div>
             </div>
         </div>
     </div>
 
+    <!-- Script do widget -->
+    <script src="svelte/dados-widget.iife.js"></script>
+    <script>
+        // Inicializar o widget quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                new window.DadosWidget({
+                    target: document.getElementById('widget-container')
+                });
+                console.log('Widget inicializado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao inicializar widget:', error);
+            }
+        });
+    </script>
 
 </body>
 </html>
